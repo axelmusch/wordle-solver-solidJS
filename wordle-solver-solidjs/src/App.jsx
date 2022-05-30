@@ -6,12 +6,11 @@ import words_test from './assets/words_test';
 import { createSignal, createEffect } from "solid-js"
 
 function App() {
-  const [possible, setPossible] = createSignal([...words_test])
+  const [possible, setPossible] = createSignal([...words])
   const [wrong, setWrong] = createSignal([])
   const [good, setGood] = createSignal([])
   const [place, setPlace] = createSignal(["", "", "", "", ""])
   const [badPlace, setBadPlace] = createSignal(["", "", "", "", ""])
-
 
   function checkWords(e) {
     e.preventDefault()
@@ -86,7 +85,6 @@ function App() {
         }
       }
 
-
     })
     setPossible(newWords)
 
@@ -100,27 +98,27 @@ function App() {
         <h1>wordle solver app</h1>
 
         <form onSubmit={checkWords}>
-          <h2>wrong letters</h2>
-          <div>
+          <h2>Wrong letters:</h2>
+          <div class={styles.form__wrongContainer}>
             <input id='lettersWrong' name='lettersWrong' type="text" value={""} />
           </div>
 
-          <h2>good letters</h2>
-          <div>
+          <h2>Good letters:</h2>
+          <div class={styles.form__goodContainer}>
             <input id='lettersGood' name='lettersGood' type="text" value={""} />
           </div>
 
-          <h2>green</h2>
-          <div>
-            <input value={""} id='letterGood_1' type="text" />
+          <h2>Green letters:</h2>
+          <div class={styles.form__greenContainer}>
+            <input id='letterGood_1' type="text" />
             <input id='letterGood_2' type="text" />
             <input id='letterGood_3' type="text" />
             <input id='letterGood_4' type="text" />
             <input id='letterGood_5' type="text" />
           </div>
 
-          <h2>letters not in spot</h2>
-          <div>
+          <h2>Letters not in spot</h2>
+          <div class={styles.form__notInSpotContainer}>
             1<input id='letterBad_1' type="text" />
             2<input id='letterBad_2' type="text" />
             3<input id='letterBad_3' type="text" />

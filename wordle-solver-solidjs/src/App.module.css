@@ -5,8 +5,15 @@
 box-sizing: border-box;
 }
 
+:root{
+  --green: #538d4e;
+  --yellow: #b59f3b;
+  --grayLight: #e7e7e7;
+  --grayDark: #6d6d6d;
+}
+
 .header {
-  background-color: #3c9353;
+  background-color: var(--green);
  color: rgb(255, 255, 255);
  font-size: 2rem;
  font-weight: bold;
@@ -22,11 +29,15 @@ box-sizing: border-box;
 .mainContent{
   max-width: 80vw;
   margin-left: 10vw;
+  padding: 25px;
+  margin-top: 25px;
+  border-radius: 30px;
+  border: 10px solid var(--yellow);
 }
 
 .submitBtn{
   font-size: 1.4rem;
-  background-color: #3c9353;
+  background-color: var(--green);
   border: unset;
   border-radius: 30px;
   color: white;
@@ -35,6 +46,14 @@ box-sizing: border-box;
   margin-top: 25px;
   cursor: pointer;
 }
+
+.mainContent input{
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid var(--grayDark);
+  font-size: 1.2rem;
+}
+
 .possibleCount{
   margin-top: 25px;
 }
@@ -45,12 +64,12 @@ box-sizing: border-box;
   height: 600px;
   overflow: auto;
   border-radius: 10px;
-  border: 1px solid gray;
+  border: 1px solid var(--grayDark);
 
 }
 .wordlist p {
-  background-color: rgb(231, 231, 231);
-  border: 1px solid gray;
+  background-color: var(--grayLight);
+  border: 1px solid var(--grayDark);
   border-radius: 10px;
   padding: 5px 10px;
   margin:  5px;
