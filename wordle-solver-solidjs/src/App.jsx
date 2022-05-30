@@ -98,8 +98,8 @@ function App() {
 
       <div class={styles.mainContent}>
         <h1>wordle solver app</h1>
-        <form onSubmit={checkWords}>
 
+        <form onSubmit={checkWords}>
           <h2>wrong letters</h2>
           <div>
             <input id='lettersWrong' name='lettersWrong' type="text" value={""} />
@@ -128,11 +128,11 @@ function App() {
             5<input id='letterBad_5' type="text" />
           </div>
 
-          <button type="submit">Check for possible words</button>
+          <button class={styles.submitBtn} type="submit">Check for possible words</button>
         </form>
 
-        <h2>possible words: {possible().length}</h2>
-        <div>{possible().map((word) => { return <p> {word}</p> })}</div>
+        <h2 class={styles.possibleCount}>Possible words: {possible().length}</h2>
+        <div class={styles.wordlist}>{possible().map((word) => { return <p> {word}</p> })}</div>
       </div>
     </div>
   );
