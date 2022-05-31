@@ -31,7 +31,6 @@ box-sizing: border-box;
   margin-left: 10vw;
   padding: 25px;
   margin-top: 25px;
-  border-radius: 30px;
   border: 10px solid var(--yellow);
 }
 
@@ -39,7 +38,6 @@ box-sizing: border-box;
   font-size: 1.4rem;
   background-color: var(--green);
   border: unset;
-  border-radius: 30px;
   color: white;
   font-weight: bold;
   padding: 1rem;
@@ -49,28 +47,63 @@ box-sizing: border-box;
 
 .mainContent input{
   padding: 5px;
-  border-radius: 10px;
   border: 1px solid var(--grayDark);
   font-size: 1.2rem;
 }
+.form__left{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 25px;
+}
+.form__right{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.form__inputs{
+  display: flex;
+}
+
+.form__greenContainer input{
+width: 54px;
+text-align: center;
+}
+
+.form__notInSpotContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.form__notInSpotContainer>div{
+  margin: 5px;
+  display: flex;
+  align-items: baseline;
+}
+
+.form__notInSpotContainer p{
+  margin-right: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 
 .possibleCount{
   margin-top: 25px;
 }
+
 .wordlist{
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
   height: 600px;
   overflow: auto;
-  border-radius: 10px;
   border: 1px solid var(--grayDark);
-
 }
+
 .wordlist p {
   background-color: var(--grayLight);
   border: 1px solid var(--grayDark);
-  border-radius: 10px;
   padding: 5px 10px;
   margin:  5px;
 }

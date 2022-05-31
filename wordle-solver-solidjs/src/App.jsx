@@ -14,7 +14,9 @@ function App() {
 
   function checkWords(e) {
     e.preventDefault()
+
     setWrong(document.getElementById("lettersWrong").value)
+
     setGood(document.getElementById("lettersGood").value)
 
     setPlace((oldPLace) => {
@@ -59,34 +61,30 @@ function App() {
       })
 
       if (checkAll) {
-        console.log(word + " " + matchall)
 
         let checkBadLetter = true
         for (let wrongLetter of wrong()) {
-          if (word.includes(wrongLetter)) {
-            checkBadLetter = false
-          }
+          if (word.includes(wrongLetter)) checkBadLetter = false
         }
 
         if (checkBadLetter) {
           let canAddWord = true
           badPlace().forEach((position, idx) => {
             for (let letter of position) {
-              if (letter == word[idx]) {
-                console.log("cant be in spot ", idx + 1)
-                canAddWord = false
-              }
+              if (letter == word[idx]) canAddWord = false
             }
           })
-          if (canAddWord) {
-            newWords.push(word)
-
-          }
+          if (canAddWord) newWords.push(word)
         }
       }
-
     })
     setPossible(newWords)
+  }
+
+  function checkInputWrong() {
+
+  }
+  function checkInputGood() {
 
   }
 
@@ -98,34 +96,40 @@ function App() {
         <h1>wordle solver app</h1>
 
         <form onSubmit={checkWords}>
-          <h2>Wrong letters:</h2>
-          <div class={styles.form__wrongContainer}>
-            <input id='lettersWrong' name='lettersWrong' type="text" value={""} />
-          </div>
+          <div class={styles.form__inputs}>
+            <div class={styles.form__left}>
+              <h2>Wrong letters:</h2>
+              <div class={styles.form__wrongContainer}>
+                <input id='lettersWrong' name='lettersWrong' type="text" value={wrong()} onChange={checkInputWrong} />
+              </div>
 
-          <h2>Good letters:</h2>
-          <div class={styles.form__goodContainer}>
-            <input id='lettersGood' name='lettersGood' type="text" value={""} />
-          </div>
+              <h2>Good letters:</h2>
+              <div class={styles.form__goodContainer}>
+                <input id='lettersGood' name='lettersGood' type="text" value={good()} onChange={checkInputWrong} />
+              </div>
 
-          <h2>Green letters:</h2>
-          <div class={styles.form__greenContainer}>
-            <input id='letterGood_1' type="text" />
-            <input id='letterGood_2' type="text" />
-            <input id='letterGood_3' type="text" />
-            <input id='letterGood_4' type="text" />
-            <input id='letterGood_5' type="text" />
-          </div>
+              <h2>Green letters:</h2>
+              <div class={styles.form__greenContainer}>
+                <input id='letterGood_1' type="text" value={place()[0]} />
+                <input id='letterGood_2' type="text" value={place()[1]} />
+                <input id='letterGood_3' type="text" value={place()[2]} />
+                <input id='letterGood_4' type="text" value={place()[3]} />
+                <input id='letterGood_5' type="text" value={place()[4]} />
+              </div>
+            </div>
 
-          <h2>Letters not in spot</h2>
-          <div class={styles.form__notInSpotContainer}>
-            1<input id='letterBad_1' type="text" />
-            2<input id='letterBad_2' type="text" />
-            3<input id='letterBad_3' type="text" />
-            4<input id='letterBad_4' type="text" />
-            5<input id='letterBad_5' type="text" />
+            <div class={styles.form__right}>
+              <h2>Letters not in spot</h2>
+              <div class={styles.form__notInSpotContainer}>
+                <div><p>1</p><input id='letterBad_1' type="text" value={badPlace()[0]} /></div>
+                <div><p>2</p><input id='letterBad_2' type="text" value={badPlace()[1]} /></div>
+                <div><p>3</p><input id='letterBad_3' type="text" value={badPlace()[2]} /></div>
+                <div><p>4</p><input id='letterBad_4' type="text" value={badPlace()[3]} /></div>
+                <div><p>5</p><input id='letterBad_5' type="text" value={badPlace()[4]} /></div>
+              </div>
+            </div>
+            <div>erros:</div>
           </div>
-
           <button class={styles.submitBtn} type="submit">Check for possible words</button>
         </form>
 
