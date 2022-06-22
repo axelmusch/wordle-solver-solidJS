@@ -99,6 +99,8 @@ text-align: center;
   height: 600px;
   overflow: auto;
   border: 1px solid var(--grayDark);
+  justify-content: space-between;
+
 }
 
 .wordlist p {

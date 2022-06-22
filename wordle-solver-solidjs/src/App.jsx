@@ -11,6 +11,7 @@ function App() {
   const [good, setGood] = createSignal([])
   const [place, setPlace] = createSignal(["", "", "", "", ""])
   const [badPlace, setBadPlace] = createSignal(["", "", "", "", ""])
+  const [msgError, setMsgError] = createSignal('')
 
   function checkWords(e) {
     e.preventDefault()
@@ -81,13 +82,71 @@ function App() {
     setPossible(newWords)
   }
 
-  function checkInputWrong() {
+  function checkInputWrong(event) {
+    console.log(event)
 
+    if (alphaOnly(event.data)) {
+      console.log('is alpha')
+
+    }
+    if (event.data != null) {
+      if (wrong().includes(event.data)) {
+        const temp = wrong()
+        setWrong('')
+        setWrong(temp)
+        setMsgError('Letter "' + event.data + '" is already in Wrong.')
+
+      } else {
+        if (good().includes(event.data)) {
+          const temp = wrong()
+          setWrong('')
+          setWrong(temp)
+          console.warn('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
+          setMsgError('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
+        } else {
+          setWrong((prev) => {
+            return prev + event.data
+          })
+        }
+
+      }
+    } else {
+      console.log('backspace')
+    }
+
+
+    //check if not in good letters
   }
-  function checkInputGood() {
+  function checkInputGood(event) {
+    //check if not in bad letters
 
+    if (good().includes(event.data)) {
+
+      const temp = good()
+      setGood('')
+      setGood(temp)
+      setMsgError('Letter "' + event.data + '" is already in Good.')
+
+    } else {
+      if (wrong().includes(event.data)) {
+        const temp = good()
+        setGood('')
+        setGood(temp)
+        console.warn('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
+        setMsgError('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
+
+      } else {
+        setGood((prev) => {
+          return prev + event.data
+        })
+      }
+
+    }
   }
-
+  function alphaOnly(sign) {
+    //^[a-zA-Z0-9._]+$/;
+    return /[a-z\b]/i.test(sign)
+  };
   return (
     <div class={styles.App}>
       <Header />
@@ -100,12 +159,12 @@ function App() {
             <div class={styles.form__left}>
               <h2>Wrong letters:</h2>
               <div class={styles.form__wrongContainer}>
-                <input id='lettersWrong' name='lettersWrong' type="text" value={wrong()} onChange={checkInputWrong} />
+                <input id='lettersWrong' name='lettersWrong' type="text" value={wrong()} onInput={checkInputWrong} />
               </div>
 
               <h2>Good letters:</h2>
               <div class={styles.form__goodContainer}>
-                <input id='lettersGood' name='lettersGood' type="text" value={good()} onChange={checkInputWrong} />
+                <input id='lettersGood' name='lettersGood' type="text" value={good()} onInput={checkInputGood} />
               </div>
 
               <h2>Green letters:</h2>
@@ -128,7 +187,7 @@ function App() {
                 <div><p>5</p><input id='letterBad_5' type="text" value={badPlace()[4]} /></div>
               </div>
             </div>
-            <div>erros:</div>
+            <div>errors: {msgError()}</div>
           </div>
           <button class={styles.submitBtn} type="submit">Check for possible words</button>
         </form>
