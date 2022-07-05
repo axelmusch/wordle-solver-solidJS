@@ -64,10 +64,15 @@ box-sizing: border-box;
 .form__inputs{
   display: flex;
 }
+.form__inputs input{
+  border: 3px solid var(--yellow);
+}
 
 .form__greenContainer input{
 width: 54px;
 text-align: center;
+border: 3px solid var(--yellow);
+border-right: unset;
 }
 
 .form__notInSpotContainer{
