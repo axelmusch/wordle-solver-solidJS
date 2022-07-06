@@ -85,31 +85,36 @@ function App() {
   function checkInputWrong(event) {
     console.log(event)
 
-    if (alphaOnly(event.data)) {
-      console.log('is alpha')
 
-    }
+
     if (event.data != null) {
-      if (wrong().includes(event.data)) {
-        const temp = wrong()
-        setWrong('')
-        setWrong(temp)
-        setMsgError('Letter "' + event.data + '" is already in Wrong.')
 
-      } else {
-        if (good().includes(event.data)) {
+      if (alphaOnly(event.data)) {
+        console.log('is alpha')
+        if (wrong().includes(event.data)) {
           const temp = wrong()
           setWrong('')
           setWrong(temp)
-          console.warn('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
-          setMsgError('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
-        } else {
-          setWrong((prev) => {
-            return prev + event.data
-          })
-        }
+          setMsgError('Letter "' + event.data + '" is already in Wrong.')
 
+        } else {
+          if (good().includes(event.data)) {
+            const temp = wrong()
+            setWrong('')
+            setWrong(temp)
+            console.warn('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
+            setMsgError('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
+          } else {
+            setWrong((prev) => {
+              return prev + event.data
+            })
+          }
+
+        }
       }
+
+
+
     } else {
       console.log('backspace')
     }
@@ -159,32 +164,32 @@ function App() {
             <div class={styles.form__left}>
               <h2>Wrong letters:</h2>
               <div class={styles.form__wrongContainer}>
-                <input id='lettersWrong' name='lettersWrong' type="text" value={wrong()} onInput={checkInputWrong} />
+                <input autoComplete="off" id='lettersWrong' name='lettersWrong' type="text" value={wrong()} onInput={checkInputWrong} />
               </div>
 
               <h2>Good letters:</h2>
               <div class={styles.form__goodContainer}>
-                <input id='lettersGood' name='lettersGood' type="text" value={good()} onInput={checkInputGood} />
+                <input autoComplete="off" id='lettersGood' name='lettersGood' type="text" value={good()} onInput={checkInputGood} />
               </div>
 
               <h2>Green letters:</h2>
               <div class={styles.form__greenContainer}>
-                <input id='letterGood_1' type="text" value={place()[0]} />
-                <input id='letterGood_2' type="text" value={place()[1]} />
-                <input id='letterGood_3' type="text" value={place()[2]} />
-                <input id='letterGood_4' type="text" value={place()[3]} />
-                <input id='letterGood_5' type="text" value={place()[4]} />
+                <input autoComplete="off" id='letterGood_1' type="text" value={place()[0]} />
+                <input autoComplete="off" id='letterGood_2' type="text" value={place()[1]} />
+                <input autoComplete="off" id='letterGood_3' type="text" value={place()[2]} />
+                <input autoComplete="off" id='letterGood_4' type="text" value={place()[3]} />
+                <input autoComplete="off" id='letterGood_5' type="text" value={place()[4]} />
               </div>
             </div>
 
             <div class={styles.form__right}>
               <h2>Letters not in spot</h2>
               <div class={styles.form__notInSpotContainer}>
-                <div><p>1</p><input id='letterBad_1' type="text" value={badPlace()[0]} /></div>
-                <div><p>2</p><input id='letterBad_2' type="text" value={badPlace()[1]} /></div>
-                <div><p>3</p><input id='letterBad_3' type="text" value={badPlace()[2]} /></div>
-                <div><p>4</p><input id='letterBad_4' type="text" value={badPlace()[3]} /></div>
-                <div><p>5</p><input id='letterBad_5' type="text" value={badPlace()[4]} /></div>
+                <div><p>1</p><input autoComplete="off" id='letterBad_1' type="text" value={badPlace()[0]} /></div>
+                <div><p>2</p><input autoComplete="off" id='letterBad_2' type="text" value={badPlace()[1]} /></div>
+                <div><p>3</p><input autoComplete="off" id='letterBad_3' type="text" value={badPlace()[2]} /></div>
+                <div><p>4</p><input autoComplete="off" id='letterBad_4' type="text" value={badPlace()[3]} /></div>
+                <div><p>5</p><input autoComplete="off" id='letterBad_5' type="text" value={badPlace()[4]} /></div>
               </div>
             </div>
             <div>errors: {msgError()}</div>
