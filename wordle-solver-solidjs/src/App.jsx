@@ -6,18 +6,19 @@ import words_test from './assets/words_test';
 import { createSignal, createEffect } from "solid-js"
 
 function App() {
-  const [possible, setPossible] = createSignal([...words])
-  const [wrong, setWrong] = createSignal([])
-  const [good, setGood] = createSignal([])
-  const [place, setPlace] = createSignal(["", "", "", "", ""])
-  const [badPlace, setBadPlace] = createSignal(["", "", "", "", ""])
-  const [msgError, setMsgError] = createSignal('')
+  const [possible, setPossible] = createSignal([...words]) //list of possible words
+  const [wrong, setWrong] = createSignal([]) //list of wrong chars as string
+  const [good, setGood] = createSignal([]) //list of good chars as string
+  const [place, setPlace] = createSignal(["", "", "", "", ""]) //array with correct letters
+  const [badPlace, setBadPlace] = createSignal(["", "", "", "", ""]) //array with letter that are in the wrong spot
+  const [msgError, setMsgError] = createSignal('') // error/conflict message
 
+  //check for possible words on button press
   function checkWords(e) {
     e.preventDefault()
 
+    //set state from inputs
     setWrong(document.getElementById("lettersWrong").value)
-
     setGood(document.getElementById("lettersGood").value)
 
     setPlace((oldPLace) => {
@@ -28,6 +29,7 @@ function App() {
       oldPLace[4] = document.getElementById("letterGood_5").value
       return oldPLace
     })
+
     setBadPlace((oldBadPLace) => {
       oldBadPLace[0] = document.getElementById("letterBad_1").value
       oldBadPLace[1] = document.getElementById("letterBad_2").value
@@ -37,13 +39,14 @@ function App() {
       return oldBadPLace
     })
 
-    console.log(place())
+    //temp arr for new possible words
     let newWords = []
 
+    //loop over words 
     words.forEach((word, idx) => {
       let matchall = []
 
-      for (let letter of good()) {
+      for (let letter of good()) {//loop over good lettersand check if word contains all good letters
         if (!word.includes(letter)) {
           matchall.push(false)
         }
@@ -82,76 +85,86 @@ function App() {
     setPossible(newWords)
   }
 
+
+  //validate inputs
   function checkInputWrong(event) {
     console.log(event)
-
-
-
     if (event.data != null) {
-
       if (alphaOnly(event.data)) {
-        console.log('is alpha')
         if (wrong().includes(event.data)) {
           const temp = wrong()
-          setWrong('')
+          setWrong('update state')
           setWrong(temp)
           setMsgError('Letter "' + event.data + '" is already in Wrong.')
-
         } else {
           if (good().includes(event.data)) {
             const temp = wrong()
-            setWrong('')
+            setWrong('update state')
             setWrong(temp)
-            console.warn('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
             setMsgError('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
           } else {
             setWrong((prev) => {
               return prev + event.data
             })
           }
-
         }
+      } else {
+        const temp = wrong()
+        setWrong('update state')
+        setWrong(temp)
       }
-
-
-
-    } else {
-      console.log('backspace')
+    } else {//backspace
+      setWrong(event.target.value)
     }
 
-
+    //checkWords(event)
     //check if not in good letters
   }
+
   function checkInputGood(event) {
     //check if not in bad letters
-
-    if (good().includes(event.data)) {
-
-      const temp = good()
-      setGood('')
-      setGood(temp)
-      setMsgError('Letter "' + event.data + '" is already in Good.')
-
-    } else {
-      if (wrong().includes(event.data)) {
-        const temp = good()
-        setGood('')
-        setGood(temp)
-        console.warn('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
-        setMsgError('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
-
+    if (event.data != null) {
+      if (alphaOnly(event.data)) {
+        if (good().includes(event.data)) {
+          const temp = good()
+          setGood('update state')
+          setGood(temp)
+          setMsgError('Letter "' + event.data + '" is already in Good.')
+        } else {
+          if (wrong().includes(event.data)) {
+            const temp = good()
+            setGood('update state')
+            setGood(temp)
+            setMsgError('Letter "' + event.data + '" cannot be in Good and Wrong at the same time')
+          } else {
+            setGood((prev) => {
+              return prev + event.data
+            })
+          }
+        }
       } else {
-        setGood((prev) => {
-          return prev + event.data
-        })
+        const temp = good()
+        setGood('update state')
+        setGood(temp)
       }
+    } else {//backspace
+      setGood(event.target.value)
+    }
 
+  }
+  function checkInputPlace(event) {
+    if (alphaOnly(event.data)) {
+      console.log('ok')
+    } else {
+      console.warn('not')
     }
   }
+
   function alphaOnly(sign) {
     //^[a-zA-Z0-9._]+$/;
     return /[a-z\b]/i.test(sign)
   };
+
   return (
     <div class={styles.App}>
       <Header />
@@ -174,11 +187,11 @@ function App() {
 
               <h2>Green letters:</h2>
               <div class={styles.form__greenContainer}>
-                <input autoComplete="off" id='letterGood_1' type="text" value={place()[0]} />
-                <input autoComplete="off" id='letterGood_2' type="text" value={place()[1]} />
-                <input autoComplete="off" id='letterGood_3' type="text" value={place()[2]} />
-                <input autoComplete="off" id='letterGood_4' type="text" value={place()[3]} />
-                <input autoComplete="off" id='letterGood_5' type="text" value={place()[4]} />
+                <input autoComplete="off" maxlength="1" id='letterGood_1' type="text" value={place()[0]} onInput={checkInputPlace} />
+                <input autoComplete="off" maxlength="1" id='letterGood_2' type="text" value={place()[1]} onInput={checkInputPlace} />
+                <input autoComplete="off" maxlength="1" id='letterGood_3' type="text" value={place()[2]} onInput={checkInputPlace} />
+                <input autoComplete="off" maxlength="1" id='letterGood_4' type="text" value={place()[3]} onInput={checkInputPlace} />
+                <input autoComplete="off" maxlength="1" id='letterGood_5' type="text" value={place()[4]} onInput={checkInputPlace} />
               </div>
             </div>
 
