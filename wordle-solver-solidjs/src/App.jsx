@@ -170,22 +170,25 @@ function App() {
       <Header />
 
       <div class={styles.mainContent}>
-        <h1>wordle solver app</h1>
 
         <form onSubmit={checkWords}>
           <div class={styles.form__inputs}>
             <div class={styles.form__left}>
+
               <h2>Wrong letters:</h2>
+              <h2>Good letters:</h2>
+              <h2>Green letters:</h2>
+
               <div class={styles.form__wrongContainer}>
                 <input autoComplete="off" id='lettersWrong' name='lettersWrong' type="text" value={wrong()} onInput={checkInputWrong} />
               </div>
 
-              <h2>Good letters:</h2>
+
               <div class={styles.form__goodContainer}>
                 <input autoComplete="off" id='lettersGood' name='lettersGood' type="text" value={good()} onInput={checkInputGood} />
               </div>
 
-              <h2>Green letters:</h2>
+
               <div class={styles.form__greenContainer}>
                 <input autoComplete="off" maxlength="1" id='letterGood_1' type="text" value={place()[0]} onInput={checkInputPlace} />
                 <input autoComplete="off" maxlength="1" id='letterGood_2' type="text" value={place()[1]} onInput={checkInputPlace} />
@@ -198,19 +201,20 @@ function App() {
             <div class={styles.form__right}>
               <h2>Letters not in spot</h2>
               <div class={styles.form__notInSpotContainer}>
-                <div><p>1</p><input autoComplete="off" id='letterBad_1' type="text" value={badPlace()[0]} /></div>
-                <div><p>2</p><input autoComplete="off" id='letterBad_2' type="text" value={badPlace()[1]} /></div>
-                <div><p>3</p><input autoComplete="off" id='letterBad_3' type="text" value={badPlace()[2]} /></div>
-                <div><p>4</p><input autoComplete="off" id='letterBad_4' type="text" value={badPlace()[3]} /></div>
-                <div><p>5</p><input autoComplete="off" id='letterBad_5' type="text" value={badPlace()[4]} /></div>
+                <input autoComplete="off" id='letterBad_1' type="text" placeholder='1' value={badPlace()[0]} />
+                <input autoComplete="off" id='letterBad_2' type="text" placeholder='2' value={badPlace()[1]} />
+                <input autoComplete="off" id='letterBad_3' type="text" placeholder='3' value={badPlace()[2]} />
+                <input autoComplete="off" id='letterBad_4' type="text" placeholder='4' value={badPlace()[3]} />
+                <input autoComplete="off" id='letterBad_5' type="text" placeholder='5' value={badPlace()[4]} />
               </div>
             </div>
-            <div>errors: {msgError()}</div>
+            <div class={styles.form__errors}><p>Warning: {msgError()} </p></div>
+            <button class={styles.submitBtn} type="submit">Check for possible words</button>
+
           </div>
-          <button class={styles.submitBtn} type="submit">Check for possible words</button>
         </form>
 
-        <h2 class={styles.possibleCount}>Possible words: {possible().length}</h2>
+        <h2 class={styles.possibleCount}>Possible words: {possible().length}/2315</h2>
         <div class={styles.wordlist}>{possible().map((word) => { return <p> {word}</p> })}</div>
       </div>
     </div>

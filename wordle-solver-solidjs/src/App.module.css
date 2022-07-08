@@ -28,10 +28,11 @@ box-sizing: border-box;
 
 .mainContent{
   max-width: 80vw;
-  margin-left: 10vw;
+  margin: auto;
   padding: 25px;
   margin-top: 25px;
   border: 10px solid var(--yellow);
+  max-width: 1200px;
 }
 
 .submitBtn{
@@ -52,17 +53,35 @@ box-sizing: border-box;
 }
 .form__left{
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+flex-wrap: wrap;  
+justify-content: space-between;
   margin-right: 25px;
 }
+.form__left h2{
+  width: 33%;
+}
+.form__left div{
+  width: 33%;
+}
+
+
 .form__right{
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
+.form__right h2{
+  width: 100%;
+}
+.form__right>div{
+  width: 100%;
+}
+
+
 .form__inputs{
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .form__inputs input{
   border: 3px solid var(--yellow);
@@ -84,13 +103,18 @@ input:focus{
 
 .form__notInSpotContainer{
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
 }
-.form__notInSpotContainer>div{
+.form__notInSpotContainer>input{
   margin: 5px;
-  display: flex;
-  align-items: baseline;
+  width: 20%;
+}
+.form__notInSpotContainer>input:last-child{
+  margin-right: 0;
+}
+
+.form__notInSpotContainer>input:first-child{
+  margin-left: 0;
 }
 
 .form__notInSpotContainer p{
@@ -99,9 +123,16 @@ input:focus{
   font-weight: bold;
 }
 
-
+.form__errors p{
+  width: fit-content;
+  padding: 5px;
+  background-color: #f8d7da;
+  border: 2px solid #f85d6c;
+  color: #721c24;
+}
 .possibleCount{
   margin-top: 25px;
+  text-align: center;
 }
 
 .wordlist{
@@ -120,5 +151,12 @@ input:focus{
   border: 1px solid var(--grayDark);
   padding: 5px 10px;
   margin:  5px;
+  width: 100px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .mainContent {
+    border: 10px solid transparent;
+  }
 }
 
