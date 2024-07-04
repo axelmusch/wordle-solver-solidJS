@@ -31,7 +31,6 @@ box-sizing: border-box;
   margin: auto;
   padding: 25px;
   margin-top: 25px;
-  border: 10px solid var(--yellow);
   max-width: 1200px;
 }
 
@@ -55,11 +54,9 @@ box-sizing: border-box;
   display: flex;
 flex-wrap: wrap;  
 justify-content: space-between;
-  margin-right: 25px;
+  width: 100%;
 }
-.form__left h2{
-  width: 33%;
-}
+
 .form__left div{
   width: 33%;
 }
@@ -134,12 +131,16 @@ input:focus{
   margin-top: 25px;
   text-align: center;
 }
-
+.wordsHeader{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 .wordlist{
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  height: 600px;
+  max-height: 600px;
   overflow: auto;
   border: 1px solid var(--grayDark);
   justify-content: flex-start;
@@ -154,9 +155,21 @@ input:focus{
   width: 100px;
 }
 
-@media only screen and (max-width: 1200px) {
-  .mainContent {
-    border: 10px solid transparent;
+.highlightWord{
+  background-color: green !important;
+  background-color: green !important;
+  color: white !important;
+}
+
+
+@media only screen and (max-width: 900px) {
+  .form__left div{
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .form__left div{
+    width: 100%;
   }
 }
 

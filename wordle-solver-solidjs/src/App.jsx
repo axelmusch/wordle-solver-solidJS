@@ -7,11 +7,14 @@ import { createSignal, createEffect } from "solid-js"
 
 function App() {
   const [possible, setPossible] = createSignal([...words]) //list of possible words
-  const [wrong, setWrong] = createSignal([]) //list of wrong chars as string
-  const [good, setGood] = createSignal([]) //list of good chars as string
+  const [highlight, setHighlight] = createSignal([]) //list of possible words
+  const [nextChoice, setNextChoice] = createSignal('') //list of possible words
+  const [wrong, setWrong] = createSignal([""]) //list of wrong chars as string
+  const [good, setGood] = createSignal([""]) //list of good chars as string
   const [place, setPlace] = createSignal(["", "", "", "", ""]) //array with correct letters
   const [badPlace, setBadPlace] = createSignal(["", "", "", "", ""]) //array with letter that are in the wrong spot
   const [msgError, setMsgError] = createSignal('') // error/conflict message
+  const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
   //check for possible words on button press
   function checkWords(e) {
@@ -41,6 +44,7 @@ function App() {
 
     //temp arr for new possible words
     let newWords = []
+    let commonLetters = {}
 
     //loop over words 
     words.forEach((word, idx) => {
@@ -82,6 +86,42 @@ function App() {
         }
       }
     })
+    newWords.forEach((newWord, idx) => {
+      const l = newWord.split("")
+      l.forEach((letter, idx) => {
+        if (commonLetters[letter]) {
+          commonLetters[letter] += 1
+        } else {
+          commonLetters[letter] = 1
+        }
+      })
+    })
+
+    const bestLetters = pickHighest(commonLetters, 5)
+    console.log(commonLetters)
+    console.log(bestLetters)
+
+    let matchCache = []
+    let maxMatch = 0
+    newWords.forEach((newWord, idx) => {
+      let lettersMatch = 0
+      for (const letter in bestLetters) {
+        if (newWord.includes(letter)) {
+          lettersMatch++
+        }
+      }
+      matchCache.push({ word: newWord, matching: lettersMatch })
+      if (lettersMatch > maxMatch) maxMatch = lettersMatch
+    })
+
+    matchCache = matchCache.filter((word) => {
+      return maxMatch == word.matching
+    }).map((word) => { return word.word })
+    console.log(matchCache)
+    setHighlight(matchCache)
+    //setNextChoice(Math.floor(Math.random() * matchCache.length))
+    console.warn(matchCache[Math.floor(Math.random() * matchCache.length)])
+    setNextChoice(matchCache[Math.floor(Math.random() * matchCache.length)])
     setPossible(newWords)
   }
 
@@ -165,6 +205,19 @@ function App() {
     return /[a-z\b]/i.test(sign)
   };
 
+  const pickHighest = (obj, num = 1) => {
+    const requiredObj = {};
+    if (num > Object.keys(obj).length) {
+      return false;
+    };
+    Object.keys(obj).sort((a, b) => obj[b] - obj[a]).forEach((key, ind) => {
+      if (ind < num) {
+        requiredObj[key] = obj[key];
+      }
+    });
+    return requiredObj;
+  };
+
   return (
     <div class={styles.App}>
       <Header />
@@ -175,21 +228,21 @@ function App() {
           <div class={styles.form__inputs}>
             <div class={styles.form__left}>
 
-              <h2>Wrong letters:</h2>
-              <h2>Good letters:</h2>
-              <h2>Green letters:</h2>
 
               <div class={styles.form__wrongContainer}>
+                <h2>Wrong letters:</h2>
                 <input autoComplete="off" id='lettersWrong' name='lettersWrong' type="text" value={wrong()} onInput={checkInputWrong} />
               </div>
 
 
               <div class={styles.form__goodContainer}>
+                <h2>Good letters:</h2>
                 <input autoComplete="off" id='lettersGood' name='lettersGood' type="text" value={good()} onInput={checkInputGood} />
               </div>
 
 
               <div class={styles.form__greenContainer}>
+                <h2>Green letters:</h2>
                 <input autoComplete="off" maxlength="1" id='letterGood_1' type="text" value={place()[0]} onInput={checkInputPlace} />
                 <input autoComplete="off" maxlength="1" id='letterGood_2' type="text" value={place()[1]} onInput={checkInputPlace} />
                 <input autoComplete="off" maxlength="1" id='letterGood_3' type="text" value={place()[2]} onInput={checkInputPlace} />
@@ -213,9 +266,17 @@ function App() {
 
           </div>
         </form>
-
-        <h2 class={styles.possibleCount}>Possible words: {possible().length}/2315</h2>
-        <div class={styles.wordlist}>{possible().map((word) => { return <p> {word}</p> })}</div>
+        <div class={styles.wordsHeader}>
+          <h2 class={styles.possibleCount}>Recommended: {nextChoice()}</h2>
+          <h2 class={styles.possibleCount}>Possible: {possible().length}/2315</h2>
+        </div>
+        <div class={styles.wordlist}>{possible().map((word) => {
+          if (highlight().includes(word)) {
+            return <p class={styles.highlightWord}>+ {word}</p>
+          } else {
+            return <p> {word}</p>
+          }
+        })}</div>
       </div>
     </div>
   );
